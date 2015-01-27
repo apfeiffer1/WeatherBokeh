@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>WeatherInfo</title>
+
+    <script src="http://cdn.pydata.org/bokeh-0.7.1.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.pydata.org/bokeh-0.7.1.min.css" type="text/css" />
+
+    {% for plot in plots['gva'] %}
+        {{ plot.script|safe}}
+    {% endfor %}
+
+     <STYLE type="text/css">
+         div.leftcolumn { width: 100%; border: 1px; float: left}
+         div.rightcolumn{ width: 100%; border: 1px; float: right}
+
+         div.actualValues { width:50%; overflow:hidden; }
+         div.lastUpdate   { width:50%; overflow:hidden; font-style:italics; }
+         div.temp { font-weight: bold; color: red; }
+         div.pres { font-weight: bold; color: blue; }
+         div.wind { font-weight: bold; color: green; }
+         div.gust { font-weight: bold; color: blue; }
+     </STYLE>
+
+
+</head>
+<body>
+
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block body %}
+
+  <h2>Weather information for GVA</h2>
+
+  <div id="GVAact" class="leftcolumn">
+    <b>Actual values GVA:</b> <br />
+    <div id="actualDataGVA" class="actualValues">
+        <table border="0">
+            <tr>
+                <td>
+                    <div class="temp"> Temperature {{ actualData['gva'].temp }} C </div>
+                </td><td>
+                    <div class="pres"> Pressure {{ actualData['gva'].qnh }}   hPA </div>
+                </td><td>
+                    <div class="wind"> Wind {{ actualData['gva'].windSpeed }}  kt </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+      <br /><br />
+    <div id="minMaxGVA">
+Minimal/Maximal values in the specified time range:
+        <table border="0">
+            <thead>
+                <td>  </td><td> Temp (C) </td><td> Press (hPa) </td><td> Wind (kt) </td><td> Gusts (kt) </td>
+            </thead>
+            <tr>
+                <td> min </td>
+                <td> <div class="temp"> {{ minMax['gva']['min']['temp'] }} </div> </td>
+                <td> <div class="pres"> {{ minMax['gva']['min']['qnh'] }} </div> </td>
+                <td> <div class="wind"> {{ minMax['gva']['min']['windSpeed'] }} </div> </td>
+                <td> <div class="gust"> {{ minMax['gva']['min']['gustSpeed'] }} </div> </td>
+            </tr>
+            <tr>
+                <td> max </td>
+                <td> <div class="temp"> {{ minMax['gva']['max']['temp'] }} </div> </td>
+                <td> <div class="pres"> {{ minMax['gva']['max']['qnh'] }} </div> </td>
+                <td> <div class="wind"> {{ minMax['gva']['max']['windSpeed'] }} </div> </td>
+                <td> <div class="gust"> {{ minMax['gva']['max']['gustSpeed'] }} </div> </td>
+            </tr>
+        </table>
+    </div>
+    <div id="lastUpdateGVA" class="lastUpdate">
+        <hr />
+last updated at: {{ actualData['gva'].lastUpdate }}
+    </div>
+  </div>
+    <br /><br />
+
+  <div class="plots">
+  <hr />
+      <div id="gva" class="leftcolumn">
+        {% for plot in plots['gva'] %}
+            {{ plot.div|safe}}
+        {% endfor %}
+      </div>
+  </div>
+  {% endblock %}
+
+</body>
+</html>
+

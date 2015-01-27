@@ -1,0 +1,8 @@
+
+weatherInfo
+-----------
+
+A small page to show the usage of the Bokeh suite (http://bokeh.pydata.org/)
+
+Based on a collection of weather readings from Geneva (Switzerland) airport during 2014 and Jan 2015.
+
